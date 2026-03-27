@@ -3,11 +3,11 @@ Dit is een eenvoudig Klantbeheersysteem gemaakt met PHP, MySQL en Bootstrap. Met
 
 ### Installatie in XAMPP:
 
-Plaats het project in htdocs van XAMPP, bijvoorbeeld C:\xampp\htdocs\CustomerManagement.
+Plaats het project in htdocs van XAMPP, bijvoorbeeld C:\xampp\htdocs\Eindopdracht.
 Start Apache en MySQL via XAMPP Control Panel.
-Open phpMyAdmin (http://localhost/phpmyadmin) en maak een database Eindopdracht_P3.
+Open phpMyAdmin (http://localhost/phpmyadmin) en maak een database eindopdracht_p3.
 Maak de tabel KlantenData met deze SQL:
-CREATE TABLE KlantenData (
+CREATE TABLE klantendata (
     id INT AUTO_INCREMENT PRIMARY KEY,
     naam_bedrijf VARCHAR(255) NOT NULL,
     contact_persoon VARCHAR(255) NOT NULL,
@@ -27,12 +27,4 @@ $dbname = "Eindopdracht_P3";
 $conn = new mysqli($host, $user, $pass, $dbname);
 ?>
 
-Open het project in je browser via http://localhost/CustomerManagement/klantenlijst.php. Gebruik “➕ Nieuwe klant” om toe te voegen, “✏️ Wijzigen” om te bewerken en “🗑️ Verwijderen” om te verwijderen.
-
-Bestanden:
-
-klantenlijst.php – Klantenlijst
-jouwformulierpagina.php – Klant toevoegen
-wijzig.php – Klant bewerken
-verwijder.php – Klant verwijderen
-README.md – Documentatie
+Open het project in je browser via http://localhost/Eindopdracht/klantenlijst.php. Gebruik “Nieuwe klant” om toe te voegen, “Wijzig” om te bewerken en “Verwijder” om te verwijderen.
