@@ -1,14 +1,34 @@
 # Klantbeheersysteem (PHP & MySQL)
-Dit is een eenvoudig Klantbeheersysteem gemaakt met PHP, MySQL en Bootstrap. Met dit systeem kun je klanten toevoegen, bekijken, wijzigen en verwijderen. De interface is responsief dankzij Bootstrap.
 
-### Installatie in XAMPP:
+Dit is een eenvoudig **Klantbeheersysteem** gemaakt met **PHP**, **MySQL** en **Bootstrap**.  
+Met dit systeem kun je klanten **toevoegen**, **bekijken**, **wijzigen** en **verwijderen** via een gebruiksvriendelijke interface.  
 
-Plaats het project in htdocs van XAMPP, bijvoorbeeld C:\xampp\htdocs\Eindopdracht.
-Start Apache en MySQL via XAMPP Control Panel.
-Open phpMyAdmin (http://localhost/phpmyadmin) en maak een database eindopdracht_p3.
-Maak de tabel KlantenData met deze SQL:
-CREATE TABLE klantendata (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+De interface is volledig **responsief** dankzij Bootstrap.
+
+---
+
+## Bestanden in dit project
+
+- `index.php` – De klantenlijst, met zoekfunctie en paginering.
+- `klanttoevoegen.php` – Voeg een nieuwe klant toe aan de database.
+- `wijzig.php` – Pas bestaande klantgegevens aan.
+- `verwijder.php` – Verwijder een klant na bevestiging.
+- `README.md` – Dit bestand met instructies.
+
+---
+
+## Installatie in XAMPP
+
+1. Plaats het project in de **htdocs** map van XAMPP, bijvoorbeeld:  
+   `C:\xampp\htdocs\Eindopdracht`
+2. Start **Apache** en **MySQL** via het XAMPP Control Panel.
+3. Open **phpMyAdmin**: [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
+4. Maak een database genaamd `Eindopdracht_P3`.
+5. Maak de tabel `KlantenData` met deze SQL:
+
+```sql
+CREATE TABLE KlantenData (
+    bedrijf_id INT AUTO_INCREMENT PRIMARY KEY,
     naam_bedrijf VARCHAR(255) NOT NULL,
     contact_persoon VARCHAR(255) NOT NULL,
     straatnaam VARCHAR(255),
@@ -17,14 +37,3 @@ CREATE TABLE klantendata (
     woonplaats VARCHAR(255),
     telefoonnummer VARCHAR(50)
 );
-Zorg dat de PHP-bestanden de juiste databaseverbinding gebruiken:
-<?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "Eindopdracht_P3";
-
-$conn = new mysqli($host, $user, $pass, $dbname);
-?>
-
-Open het project in je browser via http://localhost/Eindopdracht/klantenlijst.php. Gebruik “Nieuwe klant” om toe te voegen, “Wijzig” om te bewerken en “Verwijder” om te verwijderen.
