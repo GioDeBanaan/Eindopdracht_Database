@@ -1,4 +1,5 @@
 <?php
+// Database connection
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -6,79 +7,132 @@ $dbname = "Eindopdracht_P3";
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
-// Check verbinding
+// Check connection
 if ($conn->connect_error) {
-    die("Verbinding mislukt: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
+// Variable for success/error message
+$success = "";
+
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Use ?? to prevent undefined array key warnings
-    $naam_bedrijf = $_POST["naam_bedrijf"] ?? '';
+    // Get data from form, prevent undefined index
+    $bedrijfs_naam = $_POST["naam_bedrijf"] ?? '';
     $contact_persoon = $_POST["contact_persoon"] ?? '';
-    $straatnaam = $_POST["straatnaam"] ?? '';
+    $straat = $_POST["straatnaam"] ?? '';
     $huisnummer = $_POST["huisnummer"] ?? '';
     $postcode = $_POST["postcode"] ?? '';
     $woonplaats = $_POST["woonplaats"] ?? '';
     $telefoonnummer = $_POST["telefoonnummer"] ?? '';
 
-    // 🔐 Use prepared statements (prevents SQL injection)
+    // Prepared statement to prevent SQL injection
     $stmt = $conn->prepare("INSERT INTO KlantenData 
         (naam_bedrijf, contact_persoon, straatnaam, huisnummer, postcode, woonplaats, telefoonnummer)
         VALUES (?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->bind_param("sssssss", 
-        $naam_bedrijf, 
+        $bedrijfs_naam, 
         $contact_persoon, 
-        $straatnaam, 
+        $straat, 
         $huisnummer, 
         $postcode,
         $woonplaats,
         $telefoonnummer
     );
 
+    // Execute query and give message
     if ($stmt->execute()) {
-        echo "Nieuwe klant toegevoegd! <a href='index.php'>Terug naar klantenlijst</a>";
+        $success = "New customer added!";
     } else {
-        echo "Fout: " . $stmt->error;
+        $success = "Error: " . $stmt->error;
     }
-
-    $stmt->close();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Klant toevoegen</title>
+    <title>Voeg klant toe</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Klant toevoegen</h1>
+<body class="bg-light">
 
-    <form method="post" action="">
-        <label>Naam Bedrijf:</label><br>
-        <input type="text" name="naam_bedrijf" required><br><br>
+<h1 class="text-center my-4">Voeg klant toe</h1>
 
-        <label>Contact Persoon:</label><br>
-        <input type="text" name="contact_persoon" required><br><br>
+<?php if (!empty($success)): ?>
+    <!-- Success or error message -->
+    <div class="alert alert-success text-center">
+        <?php echo $success; ?>
+        <br>
+        <a href="index.php" class="btn btn-sm btn-primary mt-2">Terug naar klantenlijst</a>
+    </div>
+<?php endif; ?>
 
-        <label>Straatnaam:</label><br>
-        <input type="text" name="straatnaam"><br><br>
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Voeg klant toe</h4>
+        </div>
 
-        <label>Huisnummer:</label><br>
-        <input type="text" name="huisnummer"><br><br>
+        <div class="card-body">
 
-              <label>Postcode:</label><br>
-        <input type="text" name="postcode"><br><br>
-        
-              <label>Woonplaats:</label><br>
-        <input type="text" name="woonplaats"><br><br>
+            <!-- Form -->
+            <form method="post" action="">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Bedrijfsnaam</label>
+                        <input type="text" name="naam_bedrijf" class="form-control" required>
+                    </div>
 
-              <label>Telefoonnummer:</label><br>
-        <input type="text" name="telefoonnummer"><br><br>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Contactpersoon</label>
+                        <input type="text" name="contact_persoon" class="form-control" required>
+                    </div>
+                </div>
 
-        <button type="submit">Opslaan</button>
-    </form>
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Straat</label>
+                        <input type="text" name="straatnaam" class="form-control">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Huisnummer</label>
+                        <input type="text" name="huisnummer" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Postcode</label>
+                        <input type="text" name="postcode" class="form-control">
+                    </div>
+
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Woonplaats</label>
+                        <input type="text" name="woonplaats" class="form-control">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Telefoonnummer</label>
+                    <input type="text" name="telefoonnummer" class="form-control">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="index.php" class="btn btn-secondary">Terug</a>
+                    <button type="submit" class="btn btn-success">Opslaan</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
